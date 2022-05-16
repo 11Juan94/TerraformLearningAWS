@@ -9,6 +9,17 @@ provider "aws" {
     profile = "personal"
 }
 
+terraform {
+  backend "s3" {
+      bucket = "private-terraform-state-test"
+      key = "testing/services/cluster-web-servers/terraform.tfstate"
+      region = "us-east-2"
+
+      dynamodb_table = "private-terraform-locks-test"
+      encrypt = true
+  }
+}
+
 # Query info about default VPC in account.
 data "aws_vpc" "default" {
   default = true
